@@ -1,29 +1,46 @@
-#include<iostream>
+// charstack.h
+#ifndef CHARSTACK_H
+#define CHARSTACK_H
+
+#include <iostream>
 using namespace std;
 
-#include "stack.h"
+class CharNode {
+public:
+    char data;
+    CharNode* next;
+    CharNode(char val) : data(val), next(nullptr) {}
+    ~CharNode() {}
+};
 
-int main(int argc, char **argv){
-    Stack s;
-   
-/*
-  Exercise 2
- printf("Checking the parentheses in argv arguments\n");
+class CharStack {
+private:
+    CharNode* top;
+public:
+    CharStack() : top(nullptr) {}
+    ~CharStack() {
+        while (top) pop();
+    }
 
-   */
+    void push(char c) {
+        CharNode* n = new CharNode(c);
+        n->next = top;
+        top = n;
+    }
 
-    /*
-     for(j=0;j<strlen(argv[i]);j++){
-       // Use stack to help with the parentheses
+    char pop() {
+        if (!top) return '\0';
+        char c = top->data;
+        CharNode* t = top;
+        top = top->next;
+        delete t;
+        cout << "Popped: " << c << endl; // print during pop
+        return c;
+    }
 
+    bool isEmpty() {
+        return top == nullptr;
+    }
+};
 
-
-
-
-  }
-
-  */
-
-
-   return 0;
-}
+#endif

@@ -1,46 +1,50 @@
-
-#ifndef stack_h
-#define stack_h
+#ifndef STACK_H
+#define STACK_H
 #include "node.h"
+#include <iostream>
+using namespace std;
+
 class Stack {
-	NodePtr top;
-	int size;
+    NodePtr top;
+    int size;
 public:
-    void push(int);
-    int pop();
     Stack();
     ~Stack();
+    void push(int x);
+    int pop();
 };
 
-
-void Stack::push(int x){
-  NodePtr new_node=new NODE(x);
-  if(new_node){
-            // Left missing for exercises…
-   }
- 
-         // Left missing for exercises…
-    
+Stack::Stack() {
+    top = nullptr;
+    size = 0;
 }
 
-int Stack::pop(){
-        NodePtr t=top;
-        int value;
-        value=t->get_value();
-    // Left missing part for exercises
-        delete t;
-        return value;
-	//be careful of the empty stack!!!
+Stack::~Stack() {
+    while (top) {
+        pop(); // delete all remaining nodes
     }
-
-Stack::Stack(){
-    //initialize stack
-    
-}
-Stack::~Stack(){
-    //delete all remaning stack (i.e. pop all) 
-    
 }
 
+void Stack::push(int x) {
+    NodePtr new_node = new NODE(x);
+    if (new_node) {
+        new_node->set_next(top); // connect new node to previous top
+        top = new_node;          // update top
+        size++;                  // increment size
+    }
+}
+
+int Stack::pop() {
+    if (!top) {
+        cout << "Stack empty!" << endl;
+        return -1; // return -1 if stack is empty
+    }
+    NodePtr t = top;
+    int value = t->get_value();
+    top = t->get_next(); // move top to next node
+    delete t;            // free memory
+    size--;              // decrement size
+    return value;
+}
 
 #endif
